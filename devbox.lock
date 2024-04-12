@@ -1,0 +1,197 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "crossplane-cli@1.15.1": {
+      "last_modified": "2024-03-22T11:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#crossplane-cli",
+      "source": "devbox-search",
+      "version": "1.15.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/7d4nv7q83zginb737jh54rb87nx4nlh5-crossplane-cli-1.15.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/7d4nv7q83zginb737jh54rb87nx4nlh5-crossplane-cli-1.15.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xkhajnp316cwm4vxszsszwqg02agxhr1-crossplane-cli-1.15.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/xkhajnp316cwm4vxszsszwqg02agxhr1-crossplane-cli-1.15.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/psxyia2rw0b4b28sbxhkrza6i844yg8p-crossplane-cli-1.15.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/psxyia2rw0b4b28sbxhkrza6i844yg8p-crossplane-cli-1.15.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kri5nbzzdj4k0dr6dc142fjris25qwk6-crossplane-cli-1.15.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kri5nbzzdj4k0dr6dc142fjris25qwk6-crossplane-cli-1.15.1"
+        }
+      }
+    },
+    "eksctl@0.175.0": {
+      "last_modified": "2024-03-23T13:32:18Z",
+      "resolved": "github:NixOS/nixpkgs/20bc93ca7b2158ebc99b8cef987a2173a81cde35#eksctl",
+      "source": "devbox-search",
+      "version": "0.175.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qafk4m5pnrw443vl3dp5azpip75bi7fw-eksctl-0.175.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/qafk4m5pnrw443vl3dp5azpip75bi7fw-eksctl-0.175.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/hppnjbibykxlvicbn6in1fcllr6lwnan-eksctl-0.175.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/hppnjbibykxlvicbn6in1fcllr6lwnan-eksctl-0.175.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/c9ix5lsyll2hil9vaq197qnnplyd8irq-eksctl-0.175.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/c9ix5lsyll2hil9vaq197qnnplyd8irq-eksctl-0.175.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/31372z0nzcqj36xijjlg3q8ckwjqmw8y-eksctl-0.175.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/31372z0nzcqj36xijjlg3q8ckwjqmw8y-eksctl-0.175.0"
+        }
+      }
+    },
+    "kubernetes-helm@3.14.3": {
+      "last_modified": "2024-03-22T11:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#kubernetes-helm",
+      "source": "devbox-search",
+      "version": "3.14.3",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nbz58p0ak92q3hqp39mfrvhj33svh3k4-kubernetes-helm-3.14.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/nbz58p0ak92q3hqp39mfrvhj33svh3k4-kubernetes-helm-3.14.3"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1f9184lbcv55mj1sqrrf022r8ln49kpz-kubernetes-helm-3.14.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/1f9184lbcv55mj1sqrrf022r8ln49kpz-kubernetes-helm-3.14.3"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/f2v22pzmbfypqlrniragqbkxmrkk3j4h-kubernetes-helm-3.14.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/f2v22pzmbfypqlrniragqbkxmrkk3j4h-kubernetes-helm-3.14.3"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0vf3gsyjrkxrkwygi3igidd4hzab8iq9-kubernetes-helm-3.14.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/0vf3gsyjrkxrkwygi3igidd4hzab8iq9-kubernetes-helm-3.14.3"
+        }
+      }
+    },
+    "teller@1.5.6": {
+      "last_modified": "2024-03-22T11:26:23Z",
+      "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#teller",
+      "source": "devbox-search",
+      "version": "1.5.6",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/l2fh3piwbg087wkqriv4znaf9dx290wk-teller-1.5.6",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/l2fh3piwbg087wkqriv4znaf9dx290wk-teller-1.5.6"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nj5j7m0v2rfnmr9y3y123kzvlm3s7pl8-teller-1.5.6",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/nj5j7m0v2rfnmr9y3y123kzvlm3s7pl8-teller-1.5.6"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/p7l9dv1nf6pfk34s9jymdqkfx9vq602n-teller-1.5.6",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/p7l9dv1nf6pfk34s9jymdqkfx9vq602n-teller-1.5.6"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/xmkyhmg9qmg74j6pnm7kkchf57qd0xw8-teller-1.5.6",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/xmkyhmg9qmg74j6pnm7kkchf57qd0xw8-teller-1.5.6"
+        }
+      }
+    }
+  }
+}

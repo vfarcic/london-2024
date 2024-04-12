@@ -1,0 +1,11 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: control-plane
+  region: us-east-1
+  version: "1.29"
+managedNodeGroups:
+  - name: primary
+    instanceType: t3.medium
+    minSize: 3
+    maxSize: 6
