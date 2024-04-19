@@ -68,7 +68,31 @@ kubectl apply \
 
 ### Kratix
 
-TODO:
+Verify pre-requisites:
+```sh
+kubectl wait --namespace cert-manager \
+    deployment --selector app=cert-manager \
+    --for=condition=Available
+kubectl wait --namespace cert-manager \
+    deployment --selector app=webhook \
+    --for=condition=Available
+kubectl wait --namespace cert-manager \
+    deployment --selector app=cainjector \
+    --for=condition=Available
+```
+
+Assuming we are installing via ArgoCD applications:
+```sh
+kubectl apply \
+    --filename kratix-config/argoapp-kratix.yaml
+```
+
+Validate Kratix is healthy:
+```sh
+kubectl wait --namespace kratix-platform-system \
+    deployment --selector app.kubernetes.io/instance=kratix \
+    --for=condition=Available
+```
 
 ### Backstage
 
