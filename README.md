@@ -81,6 +81,9 @@ kubectl wait --namespace cert-manager \
     --for=condition=Available
 ```
 
+Note: If you need to install Cert Manager you can use the file
+`kratix-config/argoapp-certmanager.yaml`
+
 Assuming we are installing via ArgoCD applications:
 ```sh
 kubectl apply \
