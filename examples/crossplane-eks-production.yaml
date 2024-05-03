@@ -1,9 +1,9 @@
 apiVersion: devopstoolkitseries.com/v1alpha1
 kind: ClusterClaim
 metadata:
-  name: staging
+  name: production
 spec:
-  id: staging
+  id: production
   compositionSelector:
     matchLabels:
       provider: aws
@@ -21,4 +21,4 @@ spec:
         host: argocd.52.70.155.193.nip.io
         repoURL: https://github.com/vfarcic/london-2024
         destinationNamespace: apps
-        sourcePath: staging
+        sourcePath: production

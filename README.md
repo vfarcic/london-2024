@@ -39,7 +39,7 @@ export KUBECONFIG=$PWD/kubeconfig-hub.yaml
 eksctl create cluster --config-file eksctl.yaml \
     --kubeconfig $KUBECONFIG
 
-kubectl create namespace infra
+kubectl create namespace a-team
 ```
 
 ### Hub Crossplane
@@ -77,21 +77,25 @@ kubectl --namespace crossplane-system \
 # TODO: Move to Argo CD
 kubectl apply \
     --filename crossplane-config/provider-config-aws.yaml
+
+yq --inplace \
+    ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
+    examples/crossplane-eks-staging.yaml
+
+yq --inplace \
+    ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
+    examples/crossplane-eks-production.yaml
 ```
 
 ### Staging Cluster
 
-```sh
-yq --inplace \
-    ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
-    examples/crossplane-eks-staging.yaml
-    
+```sh    
 # TODO: Move to Argo CD
-kubectl --namespace infra apply \
+kubectl --namespace a-team apply \
     --filename examples/crossplane-eks-staging.yaml
 
 # TODO: Remove this command. It's here only to give visibility until it is moved to Argo CD.
-crossplane beta trace clusterclaim staging --namespace infra
+crossplane beta trace clusterclaim staging --namespace a-team
 
 # Wait until all the resources are available
 
@@ -128,7 +132,7 @@ yq --inplace \
 export KUBECONFIG=$PWD/kubeconfig-hub.yaml
 
 # TODO: Move to Argo CD
-kubectl --namespace infra apply \
+kubectl --namespace a-team apply \
     --filename examples/crossplane-eks-staging.yaml
 
 echo "http://argocd.$INGRESS_IP.nip.io"
@@ -214,15 +218,17 @@ kubectl apply --filename examples/crossplane-vm.yaml
 ```sh
 kubectl delete --filename examples/crossplane-vm.yaml
 
-cat app/*.yaml
+cat examples/crossplane-eks-production.yaml
 
-echo "https://marketplace.upbound.io/configurations/devops-toolkit/dot-sql"
+echo "https://marketplace.upbound.io/configurations/devops-toolkit/dot-kubernetes"
 ```
 
 * Open the URL in a browser
 
 ```sh
-kubectl --namespace a-team apply --filename app/
+cat examples/app.yaml
+
+kubectl --namespace a-team apply --filename examples/app.yaml
 
 kubectl --namespace a-team get all,sqlclaims
 
@@ -232,7 +238,26 @@ crossplane beta trace sqlclaim silly-demo --namespace a-team
 * We should not `apply` resources directly. We should use Argo CD, hence let's delete everything and start over.
 
 ```sh
-kubectl --namespace a-team delete --filename app/
+kubectl --namespace a-team delete --filename examples/app.yaml
+
+cat examples/crossplane-eks-production.yaml
+
+echo "https://marketplace.upbound.io/configurations/devops-toolkit/dot-sql"
+```
+
+* Open the URL in a browser
+
+```sh
+kubectl --namespace a-team apply \
+    --filename examples/crossplane-eks-production.yaml
+
+crossplane beta trace clusterclaim production --namespace a-team
+```
+
+* We should not `apply` resources directly. We should use Argo CD, hence let's delete everything and start over.
+
+```sh
+kubectl --namespace a-team delete --filename examples/crossplane-eks-production.yaml
 ```
 
 ### Kratix
@@ -241,7 +266,11 @@ TODO:
 
 ### Backstage
 
-TODO:
+```sh
+# TODO: Generate examples/crossplane-eks-production.yaml and push it to Git to the `staging` directory
+
+# TODO: Generate examples/app.yaml and push it to Git to the `staging` directory
+```
 
 ### Argo CD
 
@@ -250,13 +279,17 @@ TODO:
 ## Destroy
 
 ```sh
-# TODO: Remove Traefik from the staging cluster
+kubectl --kubeconfig kubeconfig-staging.yaml \
+    --namespace traefik delete service traefik
 
-# TODO: Move to Argo CD
-kubectl --namespace infra delete \
-    --filename examples/crossplane-eks-staging.yaml
+rm staging/*.yaml
 
-# TODO: Move to Argo CD
+git add .
+
+git commit -m "Destroy"
+
+git push
+
 kubectl get managed
 
 # Wait until all the managed resources are removed (ignore `object` resources)

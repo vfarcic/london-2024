@@ -57,3 +57,65 @@ spec:
           requests:
             cpu: 250m
             memory: 256Mi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: silly-demo
+  name: silly-demo
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: silly-demo.127.0.0.1.nip.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: silly-demo
+            port:
+              number: 8080
+        path: /
+        pathType: ImplementationSpecific
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: silly-demo
+  name: silly-demo
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: silly-demo
+  type: ClusterIP
+---
+apiVersion: v1
+data:
+  password: cG9zdGdyZXM=
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/name: silly-demo
+  name: silly-demo-password
+---
+apiVersion: devopstoolkitseries.com/v1alpha1
+kind: SQLClaim
+metadata:
+  labels:
+    app.kubernetes.io/name: silly-demo
+  name: silly-demo
+spec:
+  compositionSelector:
+    matchLabels:
+      db: postgresql
+      provider: aws
+  id: silly-demo
+  parameters:
+    size: small
+    version: "13"
+---
