@@ -228,9 +228,9 @@ echo "https://marketplace.upbound.io/configurations/devops-toolkit/dot-kubernete
 ```sh
 cat examples/app.yaml
 
-kubectl --namespace a-team apply --filename examples/app.yaml
+cat examples/sql.yaml
 
-kubectl --namespace a-team get all,sqlclaims
+kubectl --namespace a-team apply --filename examples/sql.yaml
 
 crossplane beta trace sqlclaim silly-demo --namespace a-team
 ```
@@ -238,7 +238,7 @@ crossplane beta trace sqlclaim silly-demo --namespace a-team
 * We should not `apply` resources directly. We should use Argo CD, hence let's delete everything and start over.
 
 ```sh
-kubectl --namespace a-team delete --filename examples/app.yaml
+kubectl --namespace a-team delete --filename examples/sql.yaml
 
 cat examples/crossplane-eks-production.yaml
 
@@ -267,7 +267,11 @@ TODO:
 ### Backstage
 
 ```sh
-# TODO: Generate examples/crossplane-eks-production.yaml and push it to Git to the `staging` directory
+# TODO: Generate examples/sql.yaml and push it to Git to the `hub` directory
+
+# TODO: Take `silly-demo` secret from the Hub cluster (after the DB was created) in the `a-team` Namespace and push it to the `staging` directory. Alternatively, encrypt it with SealedSecrets (if we want to complicate it more).
+
+# TODO: Generate examples/crossplane-eks-production.yaml and push it to Git to the `hub` directory
 
 # TODO: Generate examples/app.yaml and push it to Git to the `staging` directory
 ```
