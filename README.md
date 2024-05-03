@@ -30,40 +30,111 @@ aws_access_key_id = $AWS_ACCESS_KEY_ID
 aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
 " >aws-creds.conf
 
-export KUBECONFIG=$PWD/kubeconfig.yaml
+export KUBECONFIG=$PWD/kubeconfig-hub.yaml
+```
 
+### Hub Cluster
+
+```sh
 eksctl create cluster --config-file eksctl.yaml \
     --kubeconfig $KUBECONFIG
 
-kubectl create namespace a-team
+kubectl create namespace infra
 ```
 
-### Crossplane
+### Hub Crossplane
 
 ```sh
+# TODO: Move to Argo CD
 helm upgrade --install crossplane crossplane \
     --repo https://charts.crossplane.io/stable \
     --namespace crossplane-system --create-namespace --wait
 
+# TODO: Move to Argo CD
 kubectl apply \
     --filename crossplane-config/provider-kubernetes-incluster.yaml
 
+# TODO: Move to Argo CD
 kubectl apply \
     --filename crossplane-config/provider-helm-incluster.yaml
 
+# TODO: Move to Argo CD
 kubectl apply --filename crossplane-config/config-sql.yaml
+
+# TODO: Move to Argo CD
+kubectl apply --filename crossplane-config/config-kubernetes.yaml
 
 sleep 60
 
 kubectl wait --for=condition=healthy provider.pkg.crossplane.io \
     --all --timeout=600s
 
+# TODO: Move to Argo CD
 kubectl --namespace crossplane-system \
     create secret generic aws-creds \
     --from-file creds=./aws-creds.conf
 
+# TODO: Move to Argo CD
 kubectl apply \
     --filename crossplane-config/provider-config-aws.yaml
+```
+
+### Staging Cluster
+
+```sh
+yq --inplace \
+    ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
+    examples/crossplane-eks-staging.yaml
+    
+# TODO: Move to Argo CD
+kubectl --namespace infra apply \
+    --filename examples/crossplane-eks-staging.yaml
+
+# TODO: Remove this command. It's here only to give visibility until it is moved to Argo CD.
+crossplane beta trace clusterclaim staging --namespace infra
+
+# Wait until all the resources are available
+
+aws eks update-kubeconfig --region us-east-1 \
+    --name staging --kubeconfig $KUBECONFIG
+
+INGRESS_IPNAME=$(kubectl --kubeconfig kubeconfig-staging.yaml \
+    --namespace traefik get service traefik \
+    --output jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+
+INGRESS_IP=$(dig +short $INGRESS_IPNAME) 
+
+while [ -z "$INGRESS_IP" ]; do
+    sleep 10
+    INGRESS_IPNAME=$(kubectl \
+        --kubeconfig kubeconfig-staging.yaml --namespace traefik \
+        get service traefik \
+        --output jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+    INGRESS_IP=$(dig +short $INGRESS_IPNAME) 
+done
+
+INGRESS_IP=$(echo $INGRESS_IP | awk '{print $1;}')
+
+INGRESS_IP_LINES=$(echo $INGRESS_IP | wc -l | tr -d ' ')
+
+if [ $INGRESS_IP_LINES -gt 1 ]; then
+    INGRESS_IP=$(echo $INGRESS_IP | head -n 1)
+fi
+
+yq --inplace \
+    ".spec.parameters.apps.argocd.host = \"argocd.$INGRESS_IP.nip.io\"" \
+    examples/crossplane-eks-staging.yaml
+
+export KUBECONFIG=$PWD/kubeconfig-hub.yaml
+
+# TODO: Move to Argo CD
+kubectl --namespace infra apply \
+    --filename examples/crossplane-eks-staging.yaml
+
+echo "http://argocd.$INGRESS_IP.nip.io"
+
+# Open it in a browser
+# Use `admin` as the username and `admin123` as the password
 ```
 
 ### Kratix
@@ -179,5 +250,16 @@ TODO:
 ## Destroy
 
 ```sh
+# TODO: Remove Traefik from the staging cluster
+
+# TODO: Move to Argo CD
+kubectl --namespace infra delete \
+    --filename examples/crossplane-eks-staging.yaml
+
+# TODO: Move to Argo CD
+kubectl get managed
+
+# Wait until all the managed resources are removed (ignore `object` resources)
+
 eksctl delete cluster --config-file eksctl.yaml
 ```

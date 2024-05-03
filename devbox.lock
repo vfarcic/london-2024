@@ -1,6 +1,70 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "awscli2@2.15.38": {
+      "last_modified": "2024-04-27T06:29:53-04:00",
+      "resolved": "github:NixOS/nixpkgs/d6f6eb2a984f2ba9a366c31e4d36d65465683450#awscli2",
+      "source": "devbox-search",
+      "version": "2.15.38",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zkgkwy7mw351ravi5mfmyd4g605akcbj-awscli2-2.15.38",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/7x6ny390xc5rv9s1p432mh63j2bcsd6g-awscli2-2.15.38-dist"
+            }
+          ],
+          "store_path": "/nix/store/zkgkwy7mw351ravi5mfmyd4g605akcbj-awscli2-2.15.38"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/5prxbqvp4h85z82dflspwyfzb5d67x80-awscli2-2.15.38",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/lc9s2njd4sw7ig3v6rpsj3p464x3sj1r-awscli2-2.15.38-dist"
+            }
+          ],
+          "store_path": "/nix/store/5prxbqvp4h85z82dflspwyfzb5d67x80-awscli2-2.15.38"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/7abrr9j7kfihps5wbam5qwhd4xxvqhrz-awscli2-2.15.38",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/fffd119idyjvvwmjhdf0n1lwkqwzflym-awscli2-2.15.38-dist"
+            }
+          ],
+          "store_path": "/nix/store/7abrr9j7kfihps5wbam5qwhd4xxvqhrz-awscli2-2.15.38"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/14j1rqbjglyq46r9f5kj4lvwk5ap7vmh-awscli2-2.15.38",
+              "default": true
+            },
+            {
+              "name": "dist",
+              "path": "/nix/store/awrjg74bzxr4qmsnji3frc4j1gwg9lwk-awscli2-2.15.38-dist"
+            }
+          ],
+          "store_path": "/nix/store/14j1rqbjglyq46r9f5kj4lvwk5ap7vmh-awscli2-2.15.38"
+        }
+      }
+    },
     "crossplane-cli@1.15.1": {
       "last_modified": "2024-03-22T11:26:23Z",
       "resolved": "github:NixOS/nixpkgs/a3ed7406349a9335cb4c2a71369b697cecd9d351#crossplane-cli",
@@ -190,6 +254,102 @@
             }
           ],
           "store_path": "/nix/store/xmkyhmg9qmg74j6pnm7kkchf57qd0xw8-teller-1.5.6"
+        }
+      }
+    },
+    "viddy@0.4.0": {
+      "last_modified": "2024-04-19T17:36:04-04:00",
+      "resolved": "github:NixOS/nixpkgs/92d295f588631b0db2da509f381b4fb1e74173c5#viddy",
+      "source": "devbox-search",
+      "version": "0.4.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/zj4zdv01ik9x3mjdrjd4vhqwxrpqzzpg-viddy-0.4.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/zj4zdv01ik9x3mjdrjd4vhqwxrpqzzpg-viddy-0.4.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/mwbhw490mp3dsqb3f5v05h6h56p9x88k-viddy-0.4.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/mwbhw490mp3dsqb3f5v05h6h56p9x88k-viddy-0.4.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/5hdagc0lwhz5jjc96x04a4if6xn1z34i-viddy-0.4.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/5hdagc0lwhz5jjc96x04a4if6xn1z34i-viddy-0.4.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/b0fq810f916nfpb6hk0akif055qkdbf7-viddy-0.4.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/b0fq810f916nfpb6hk0akif055qkdbf7-viddy-0.4.0"
+        }
+      }
+    },
+    "yq-go@4.43.1": {
+      "last_modified": "2024-04-19T17:36:04-04:00",
+      "resolved": "github:NixOS/nixpkgs/92d295f588631b0db2da509f381b4fb1e74173c5#yq-go",
+      "source": "devbox-search",
+      "version": "4.43.1",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/rfiv0y75hj8730n1a6drnjhkk7vhdl9j-yq-go-4.43.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/rfiv0y75hj8730n1a6drnjhkk7vhdl9j-yq-go-4.43.1"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jni4dcywxfmwabxqmadp6lha4bn2sv2a-yq-go-4.43.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/jni4dcywxfmwabxqmadp6lha4bn2sv2a-yq-go-4.43.1"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kd7h15ml6ypamdm65vdw1961zmcrqswk-yq-go-4.43.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kd7h15ml6ypamdm65vdw1961zmcrqswk-yq-go-4.43.1"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3im0h6slqakpx47p6y87var90hsvxqsy-yq-go-4.43.1",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/3im0h6slqakpx47p6y87var90hsvxqsy-yq-go-4.43.1"
         }
       }
     }

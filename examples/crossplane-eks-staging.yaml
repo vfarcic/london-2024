@@ -1,0 +1,23 @@
+apiVersion: devopstoolkitseries.com/v1alpha1
+kind: ClusterClaim
+metadata:
+  name: staging
+spec:
+  id: staging
+  compositionSelector:
+    matchLabels:
+      provider: aws
+      cluster: eks
+  parameters:
+    nodeSize: medium
+    minNodeCount: 3
+    namespaces:
+      - apps
+    apps:
+      traefik:
+        enabled: true
+      argocd:
+        enabled: true
+        host: argocd.52.70.155.193.nip.io
+        repoURL: https://github.com/vfarcic/london-2024
+        destinationNamespace: apps
