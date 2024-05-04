@@ -46,19 +46,6 @@ kubectl create namespace a-team
 
 ```sh
 # TODO: Move to Argo CD
-helm upgrade --install crossplane crossplane \
-    --repo https://charts.crossplane.io/stable \
-    --namespace crossplane-system --create-namespace --wait
-
-# TODO: Move to Argo CD
-kubectl apply \
-    --filename crossplane-config/provider-kubernetes-incluster.yaml
-
-# TODO: Move to Argo CD
-kubectl apply \
-    --filename crossplane-config/provider-helm-incluster.yaml
-
-# TODO: Move to Argo CD
 kubectl apply --filename crossplane-config/config-sql.yaml
 
 # TODO: Move to Argo CD
@@ -68,23 +55,6 @@ sleep 60
 
 kubectl wait --for=condition=healthy provider.pkg.crossplane.io \
     --all --timeout=600s
-
-# TODO: Move to Argo CD
-kubectl --namespace crossplane-system \
-    create secret generic aws-creds \
-    --from-file creds=./aws-creds.conf
-
-# TODO: Move to Argo CD
-kubectl apply \
-    --filename crossplane-config/provider-config-aws.yaml
-
-yq --inplace \
-    ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
-    examples/crossplane-eks-staging.yaml
-
-yq --inplace \
-    ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
-    examples/crossplane-eks-production.yaml
 ```
 
 ### Staging Cluster
