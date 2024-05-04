@@ -31,6 +31,8 @@ aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
 " >aws-creds.conf
 
 export KUBECONFIG=/tmp/hub-cluster
+
+curl -sL "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
 ```
 
 ### Hub Cluster
@@ -67,7 +69,7 @@ yq --inplace ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote
 kubectl apply --filename examples/crossplane-eks-staging.yaml
 
 # TODO: Remove this command. It's here only to give visibility until it is moved to Argo CD.
-crossplane beta trace clusterclaim staging --namespace a-team
+./crossplane beta trace clusterclaim staging --namespace a-team
 
 # Wait until all the resources are available
 
@@ -204,7 +206,7 @@ cat examples/sql.yaml
 
 kubectl --namespace a-team apply --filename examples/sql.yaml
 
-crossplane beta trace sqlclaim silly-demo --namespace a-team
+./crossplane beta trace sqlclaim silly-demo --namespace a-team
 ```
 
 * We should not `apply` resources directly. We should use Argo CD, hence let's delete everything and start over.
@@ -223,7 +225,7 @@ echo "https://marketplace.upbound.io/configurations/devops-toolkit/dot-sql"
 kubectl --namespace a-team apply \
     --filename examples/crossplane-eks-production.yaml
 
-crossplane beta trace clusterclaim production --namespace a-team
+./crossplane beta trace clusterclaim production --namespace a-team
 ```
 
 * We should not `apply` resources directly. We should use Argo CD, hence let's delete everything and start over.
