@@ -61,8 +61,10 @@ kubectl wait --for=condition=healthy provider.pkg.crossplane.io \
 
 ```sh    
 # TODO: Move to Argo CD
-kubectl --namespace a-team apply \
-    --filename examples/crossplane-eks-staging.yaml
+kubectl create ns a-team --dry-run=client -o yaml | kubectl apply --filename -
+yq --inplace ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
+    examples/crossplane-eks-staging.yaml
+kubectl apply --filename examples/crossplane-eks-staging.yaml
 
 # TODO: Remove this command. It's here only to give visibility until it is moved to Argo CD.
 crossplane beta trace clusterclaim staging --namespace a-team
@@ -70,7 +72,7 @@ crossplane beta trace clusterclaim staging --namespace a-team
 # Wait until all the resources are available
 
 aws eks update-kubeconfig --region us-east-1 \
-    --name staging --kubeconfig $KUBECONFIG
+    --name staging --kubeconfig kubeconfig-staging.yaml
 
 INGRESS_IPNAME=$(kubectl --kubeconfig kubeconfig-staging.yaml \
     --namespace traefik get service traefik \
