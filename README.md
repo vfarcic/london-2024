@@ -66,7 +66,7 @@ kubectl wait --for=condition=healthy provider.pkg.crossplane.io \
 kubectl create ns a-team --dry-run=client -o yaml | kubectl apply --filename -
 yq --inplace ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
     examples/crossplane-eks-staging.yaml
-kubectl apply --filename examples/crossplane-eks-staging.yaml
+kubectl apply --namespace a-team --filename examples/crossplane-eks-staging.yaml
 
 # TODO: Remove this command. It's here only to give visibility until it is moved to Argo CD.
 ./crossplane beta trace clusterclaim staging --namespace a-team
