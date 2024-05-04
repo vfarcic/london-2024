@@ -236,11 +236,12 @@ kubectl --namespace a-team delete --filename examples/crossplane-eks-production.
 
 ### Kratix
 
-TODO:
-
-### Backstage
+At the most simple, Kratix is a gitops writer, so let's do that...
 
 ```sh
+# TODO: Base Promise with Crossplane files in the resource workflow + environment field in the API
+
+# To use "Crossplane Files":
 # TODO: Generate examples/sql.yaml and push it to Git to the `hub` directory
 
 # TODO: Take `silly-demo` secret from the Hub cluster (after the DB was created) in the `a-team` Namespace and push it to the `staging` directory. Alternatively, encrypt it with SealedSecrets (if we want to complicate it more).
@@ -248,6 +249,21 @@ TODO:
 # TODO: Generate examples/crossplane-eks-production.yaml and push it to Git to the `hub` directory
 
 # TODO: Generate examples/app.yaml and push it to Git to the `staging` directory
+```
+
+Yay, now we have our Crossplane resources staying reconciled both from Crossplane to AWS but also from our intention to Crossplane.
+
+Now let's build in the need for manual approval in production
+```sh
+# TODO: add container for manual approval
+```
+
+### Backstage
+
+```sh
+# TODO: Generate a template that matches the Kratix API form
+# TODO: When someone creates from this template, make a commit to the git repo
+# TODO: Make sure the items created by Kratix/Crossplane show up in the catalog as you wish
 ```
 
 ### Argo CD
