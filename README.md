@@ -30,7 +30,7 @@ aws_access_key_id = $AWS_ACCESS_KEY_ID
 aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
 " >aws-creds.conf
 
-export KUBECONFIG=$PWD/kubeconfig-hub.yaml
+export KUBECONFIG=/tmp/hub-cluster
 ```
 
 ### Hub Cluster
@@ -99,7 +99,7 @@ yq --inplace \
     ".spec.parameters.apps.argocd.host = \"argocd.$INGRESS_IP.nip.io\"" \
     examples/crossplane-eks-staging.yaml
 
-export KUBECONFIG=$PWD/kubeconfig-hub.yaml
+export KUBECONFIG=/tmp/hub-cluster
 
 # TODO: Move to Argo CD
 kubectl --namespace a-team apply \
