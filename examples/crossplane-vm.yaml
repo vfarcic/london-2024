@@ -6,7 +6,7 @@ metadata:
 spec:
   forProvider:
     ami: ami-052efd3df9dad4825
-    region: us-east-1
+    region: us-west-2
     instanceType: t2.nano
     subnetIdRef:
       name: my-vm
@@ -19,7 +19,7 @@ metadata:
   name: my-vm
 spec:
   forProvider:
-    region: us-east-1
+    region: us-west-2
     instanceIdRef:
       name: my-vm
     state: running
@@ -30,7 +30,7 @@ metadata:
   name: my-vm
 spec:
   forProvider:
-    region: us-east-1
+    region: us-west-2
     cidrBlock: 10.0.0.0/16
     enableDnsSupport: true
 ---
@@ -40,8 +40,8 @@ metadata:
   name: my-vm
 spec:
   forProvider:
-    region: us-east-1
-    availabilityZone: us-east-1a
+    region: us-west-2
+    availabilityZone: us-west-2a
     cidrBlock: 10.0.0.0/24
     vpcIdRef:
       name: my-vm

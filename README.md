@@ -73,7 +73,7 @@ kubectl apply --namespace a-team --filename examples/crossplane-eks-staging.yaml
 
 # Wait until all the resources are available
 
-aws eks update-kubeconfig --region us-east-1 \
+aws eks update-kubeconfig --region us-west-2 \
     --name staging --kubeconfig kubeconfig-staging.yaml
 
 INGRESS_IPNAME=$(kubectl --kubeconfig kubeconfig-staging.yaml \
@@ -177,7 +177,7 @@ echo "https://marketplace.upbound.io/providers/upbound/provider-aws-ec2"
 * Open the URL in a browser
 
 ```sh
-echo "https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1"
+echo "https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2"
 ```
 
 * Open the URL in a browser
