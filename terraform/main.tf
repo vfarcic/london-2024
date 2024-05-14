@@ -241,6 +241,17 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
+  # Combine root account, current user/role and additinoal roles to be able to access the cluster KMS key - required for terraform updates
+  kms_key_administrators = distinct(concat([
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"],
+    var.kms_key_admin_roles,
+    [data.aws_iam_session_context.current.issuer_arn]
+
+  ))
+
+  manage_aws_auth_configmap = true
+  aws_auth_roles            = var.aws_auth_roles
+
   eks_managed_node_groups = {
     initial = {
       instance_types = ["t3.medium"]
