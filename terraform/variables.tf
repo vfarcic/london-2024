@@ -33,6 +33,12 @@ variable "aws_auth_roles" {
   #     groups   = ["system:masters"]
   #   }
 }
+variable "kms_key_admin_roles" {
+  description = "list of role ARNs to add to the KMS policy"
+  type        = list(string)
+  default     = []
+
+}
 variable "addons" {
   description = "Kubernetes addons"
   type        = any
