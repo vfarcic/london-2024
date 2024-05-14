@@ -13,6 +13,26 @@ variable "kubernetes_version" {
   type        = string
   default     = "1.28"
 }
+variable "aws_auth_roles" {
+  description = "additional aws auth roles"
+  type = list(
+    object(
+      {
+        rolearn  = string
+        username = string
+        groups = list(string
+        )
+      }
+    )
+  )
+  default = []
+  # example structure
+  #  {
+  #     rolearn  = "arn:aws:iam::12345678901:role/role1"
+  #     username = "role1"
+  #     groups   = ["system:masters"]
+  #   }
+}
 variable "addons" {
   description = "Kubernetes addons"
   type        = any
