@@ -8,32 +8,15 @@
 
 ## Setup
 
-This section should be executed before the workshop in each of attendees accounts.
+This section describes the manual setup for the workshop. It is recommended to use the Terraform setup as described in the root `README.md`.
 
 ### Common
 
 ```sh
-git clone https://github.com/vfarcic/london-2024
-
-cd london-2024
-ROOT=$(pwd)
-
-devbox shell
-
-# Replace `[...]` with the AWS Access Key ID
-export AWS_ACCESS_KEY_ID=[...]
-
-# Replace `[...]` with the AWS Secret Access Key
-export AWS_SECRET_ACCESS_KEY=[...]
-
 echo "[default]
 aws_access_key_id = $AWS_ACCESS_KEY_ID
 aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
 " >aws-creds.conf
-
-export KUBECONFIG=/tmp/hub-cluster
-
-curl -sL "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
 ```
 
 ### Hub Cluster

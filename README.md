@@ -4,10 +4,33 @@
 
 * Shell terminal (use WSL if on Windows)
 * Git
+* [Devbox](https://www.jetify.com/devbox/docs/installing_devbox)
 
 ## Setup
 
-The attendees will be provided an AWS account using the setup described in `./terraform/README.md`.
+### Common
+
+Environment variables:
+```bash
+git clone https://github.com/vfarcic/london-2024
+
+cd london-2024
+devbox shell
+
+ROOT=$(pwd)
+
+# Replace `[...]` with the AWS Access Key ID
+export AWS_ACCESS_KEY_ID=[...]
+
+# Replace `[...]` with the AWS Secret Access Key
+export AWS_SECRET_ACCESS_KEY=[...]
+
+export KUBECONFIG=${ROOT}/kubeconfig-hub-cluster.yaml
+```
+
+### Cluster creation and bootstrapping
+
+Attendees will be provided an AWS account using the setup described in `./terraform/README.md`.
 This code is executable on personal accounts as well as long as AWS account credentials are correctly set.
 
 Separately, if you prefer to do a more step by step setup, you can follow the instructions in `./localenv/README.md`
