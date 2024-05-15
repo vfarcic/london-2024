@@ -1,0 +1,9 @@
+apiVersion: marketplace.kratix.io/v1alpha1
+kind: sqlapp
+metadata:
+  name: silly-demo
+  namespace: default
+spec:
+  env: staging
+  image: ghcr.io/vfarcic/silly-demo:1.4.123
+  replicas: 1

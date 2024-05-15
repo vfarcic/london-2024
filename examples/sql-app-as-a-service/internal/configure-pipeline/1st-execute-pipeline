@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+
+set -eux
+
+export name="$(yq eval '.metadata.name' /kratix/input/object.yaml)"
+export env="$(yq eval '.spec.env' /kratix/input/object.yaml)"
+export replicas="$(yq eval '.spec.replicas' /kratix/input/object.yaml)"
+export image="$(yq eval '.spec.image' /kratix/input/object.yaml)"
+
+
+cat << EOF > /kratix/output/sql-claim.yaml
+---
+apiVersion: v1
+data:
+  password: $(tr -dc A-Za-z0-9 </dev/urandom | head -c 13; base64)
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/name: $name
+  name: $name-password
+---
+apiVersion: devopstoolkitseries.com/v1alpha1
+kind: SQLClaim
+metadata:
+  labels:
+    app.kubernetes.io/name: $name
+  name: $name
+spec:
+  compositionSelector:
+    matchLabels:
+      db: postgresql
+      provider: aws
+  id: $name
+  parameters:
+    size: small
+    version: "13"
+EOF
+
+echo """
+- matchLabels:
+    environment: hub
+""" >> /kratix/metadata/destination-selectors.yaml
