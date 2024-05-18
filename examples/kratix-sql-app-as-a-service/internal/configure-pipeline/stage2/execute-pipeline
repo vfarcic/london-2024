@@ -8,11 +8,14 @@ export replicas="$(yq eval '.spec.replicas' /kratix/input/object.yaml)"
 export image="$(yq eval '.spec.image' /kratix/input/object.yaml)"
 
 function eventually {
-	for i in {1..80}; do $@ && return || sleep 5; done
+  # 10 minutes
+	for i in $(seq 1 120); do $@ && return || sleep 5; done
 	exit 1
 }
 
+set +e
 eventually kubectl get secret $name
+set -e
 
 kubectl get secret $name -o yaml > /kratix/output/secret.yaml
 yq -i eval 'del(.metadata.creationTimestamp)' /kratix/output/secret.yaml

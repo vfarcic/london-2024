@@ -1,0 +1,10 @@
+apiVersion: platform.kratix.io/v1alpha1
+kind: GitStateStore
+metadata:
+  name: default
+spec:
+  secretRef:
+    name: github-credentials
+    namespace: default
+  url: https://github.com/vfarcic/london-2024.git
+  branch: main

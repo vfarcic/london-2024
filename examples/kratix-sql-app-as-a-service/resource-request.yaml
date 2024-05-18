@@ -6,4 +6,3 @@ metadata:
 spec:
   env: staging
   image: ghcr.io/vfarcic/silly-demo:1.4.123
-  replicas: 1

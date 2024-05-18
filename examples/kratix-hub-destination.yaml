@@ -1,0 +1,10 @@
+apiVersion: platform.kratix.io/v1alpha1
+kind: Destination
+metadata:
+  name: hub
+  labels:
+    environment: hub
+spec:
+  stateStoreRef:
+    name: default
+    kind: GitStateStore
