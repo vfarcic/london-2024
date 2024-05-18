@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source https://github.com/syntasso/kratix-marketp
 RUN [ "mkdir", "/tmp/transfer" ]
 RUN apk update && apk add --no-cache yq base64
 
-ADD 1st-execute-pipeline execute-pipeline
+ADD execute-pipeline execute-pipeline
 
 CMD [ "sh", "-c", "./execute-pipeline" ]
 ENTRYPOINT []

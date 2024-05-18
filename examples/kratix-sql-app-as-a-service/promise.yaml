@@ -9,12 +9,12 @@ spec:
     apiVersion: apiextensions.k8s.io/v1
     kind: CustomResourceDefinition
     metadata:
-      name: sqlapp.marketplace.kratix.io
+      name: sqlapps.marketplace.kratix.io
     spec:
       group: marketplace.kratix.io
       names:
         kind: sqlapp
-        plural: sqlapp
+        plural: sqlapps
         singular: sqlapp
       scope: Namespaced
       versions:
@@ -29,19 +29,17 @@ spec:
                       description: |
                         Evironment to schedule deployment to. Staging or Prod
                       enum:
-                      - staging
-                      - prod
+                        - staging
+                        - prod
                       type: string
                     image:
                       description: |
                         Image to deploy
                       type: string
-                    replicas:
-                      default: 1
-                      description: |
-                        Replicas for the deployment
-                      type: integer
                   type: object
+                  required:
+                    - env
+                    - image
               type: object
           served: true
           storage: true
@@ -55,8 +53,8 @@ spec:
             namespace: default
           spec:
             containers:
-              - image: ghcr.io/vfarcic/london-2024/create-sql-app-as-a-service-configure-pipeline:v0.1.0
-                name: sqlapp-configure-pipeline
+              - image: docker.io/abangser/stage1-pipeline:v0.1.0
+                name: sqlapp-configure-stage1-pipeline
         - apiVersion: platform.kratix.io/v1alpha1
           kind: Pipeline
           metadata:
@@ -64,20 +62,20 @@ spec:
             namespace: default
           spec:
             containers:
-              - image: ghcr.io/vfarcic/london-2024/create-deployment-sql-app-as-a-service-configure-pipeline:v0.1.0
-                name: sqlapp-configure-pipeline
+              - image: docker.io/abangser/stage2-pipeline:v0.1.0
+                name: sqlapp-configure-stage2-pipeline
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: sql-app-as-a-service-resource-pipeline-credentials
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - get
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -88,6 +86,6 @@ roleRef:
   kind: ClusterRole
   name: sql-app-as-a-service-resource-pipeline-credentials
 subjects:
-- kind: ServiceAccount
-  name: sql-app-as-a-service-resource-pipeline
-  namespace: default
+  - kind: ServiceAccount
+    name: sql-app-as-a-service-resource-pipeline
+    namespace: default

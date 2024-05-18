@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -e
+
+declare -a args=( "$@" )
+
+PWD="$( cd $(dirname $0)/.. && pwd)"
+for dir_name in stage1 stage2; do
+  pipeline_image="docker.io/abangser/${dir_name}-pipeline:v0.1.0"
+  
+  set -- "${args[@]}"
+  while [ $# -gt 0 ]; do
+    echo "pipeline_image: ${pipeline_image}"
+    case "$1" in
+      build)
+        docker build \
+          --tag "${pipeline_image}" \
+          --platform linux/amd64 \
+          "${PWD}/configure-pipeline/${dir_name}" ;;
+
+      load)
+        #TODO: Make this work for EKS hub-cluster
+        kind load docker-image "${pipeline_image}" --name platform ;;
+
+      push)
+        docker push "${pipeline_image}" ;;
+
+      rmi)
+        docker rmi --force "${pipeline_image}" ;;
+
+      pull)
+        docker pull "${pipeline_image}" ;;
+
+      *)
+        echo "unknown command $1"
+        exit 1
+        ;;
+    esac
+    shift
+  done
+done
