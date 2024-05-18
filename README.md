@@ -35,6 +35,90 @@ This code is executable on personal accounts as well as long as AWS account cred
 
 Separately, if you prefer to do a more step by step setup, you can follow the instructions in `./localenv/README.md`
 
+TODO: Move below instructions into the terraform setup:
+
+### Hub Crossplane
+
+```sh
+kubectl create ns a-team --dry-run=client -o yaml | kubectl apply --filename -
+
+# TODO: Move to Argo CD
+kubectl apply --filename ${ROOT}/crossplane-config/config-sql.yaml
+
+# TODO: Move to Argo CD
+kubectl apply --filename ${ROOT}/crossplane-config/config-kubernetes.yaml
+
+sleep 60
+
+kubectl wait --for=condition=healthy provider.pkg.crossplane.io \
+    --all --timeout=600s
+```
+
+### Staging Cluster
+
+```sh
+# TODO: Move to Argo CD
+yq --inplace ".spec.parameters.apps.argocd.repoURL = \"$(git config --get remote.origin.url)\"" \
+    examples/crossplane-eks-staging.yaml
+kubectl apply --namespace a-team --filename ${ROOT}/examples/crossplane-eks-staging.yaml
+
+# TODO: Remove this command. It's here only to give visibility until it is moved to Argo CD.
+crossplane beta trace clusterclaim staging --namespace a-team
+
+# Wait until all the resources are available
+# TODO: determine command to confirm all resources are available
+
+# TODO: Figure out how to move these to us-west-2 to match terraform, or the other way around
+
+# TODO: align kubeconfig plans with terraform
+# TODO: This kubeconfig does not auth to the cluster (hub-cluster works ok though)
+#       Current work around is:
+#           kubectl get secret -n a-team staging-cluster \
+#               -ogo-template='{{.data.kubeconfig | base64decode}}' > ${ROOT}/kubeconfig-staging.yaml
+aws eks update-kubeconfig --region us-east-1 \
+    --name staging --kubeconfig ${ROOT}/kubeconfig-staging.yaml
+
+INGRESS_IPNAME=$(kubectl --kubeconfig ${ROOT}/kubeconfig-staging.yaml \
+    --namespace traefik get service traefik \
+    --output jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+
+INGRESS_IP=$(dig +short $INGRESS_IPNAME) 
+
+while [ -z "$INGRESS_IP" ]; do
+    sleep 10
+    INGRESS_IPNAME=$(kubectl \
+        --kubeconfig ${ROOT}/kubeconfig-staging.yaml --namespace traefik \
+        get service traefik \
+        --output jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+    INGRESS_IP=$(dig +short $INGRESS_IPNAME) 
+done
+
+INGRESS_IP=$(echo $INGRESS_IP | awk '{print $1;}')
+
+INGRESS_IP_LINES=$(echo $INGRESS_IP | wc -l | tr -d ' ')
+
+if [ $INGRESS_IP_LINES -gt 1 ]; then
+    INGRESS_IP=$(echo $INGRESS_IP | head -n 1)
+fi
+
+yq --inplace \
+    ".spec.parameters.apps.argocd.host = \"argocd.$INGRESS_IP.nip.io\"" \
+    examples/crossplane-eks-staging.yaml
+
+export KUBECONFIG=/tmp/hub-cluster
+
+# TODO: Move to Argo CD
+kubectl --namespace a-team apply \
+    --filename ${ROOT}/examples/crossplane-eks-staging.yaml
+
+echo "http://argocd.$INGRESS_IP.nip.io"
+
+# Open it in a browser
+# Use `admin` as the username and `admin123` as the password
+```
+
+TODO: Store docker images for Kratix Promises
+
 ## Workshop
 
 Workshop starts here.
@@ -58,7 +142,7 @@ echo "https://marketplace.upbound.io/providers/upbound/provider-aws-ec2"
 * Open the URL in a browser
 
 ```sh
-echo "https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2"
+echo "https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1"
 ```
 
 * Open the URL in a browser
@@ -87,7 +171,7 @@ cat examples/sql.yaml
 
 kubectl --namespace a-team apply --filename examples/sql.yaml
 
-./crossplane beta trace sqlclaim silly-demo --namespace a-team
+crossplane beta trace sqlclaim silly-demo --namespace a-team
 ```
 
 * We should not `apply` resources directly. We should use Argo CD, hence let's delete everything and start over.
@@ -106,7 +190,7 @@ echo "https://marketplace.upbound.io/configurations/devops-toolkit/dot-sql"
 kubectl --namespace a-team apply \
     --filename examples/crossplane-eks-production.yaml
 
-./crossplane beta trace clusterclaim production --namespace a-team
+crossplane beta trace clusterclaim production --namespace a-team
 ```
 
 * We should not `apply` resources directly. We should use Argo CD, hence let's delete everything and start over.
