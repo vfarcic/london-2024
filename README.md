@@ -33,8 +33,6 @@ export KUBECONFIG=${ROOT}/kubeconfig-hub-cluster.yaml
 Attendees will be provided an AWS account using the setup described in `./terraform/README.md`.
 This code is executable on personal accounts as well as long as AWS account credentials are correctly set.
 
-Separately, if you prefer to do a more step by step setup, you can follow the instructions in `./localenv/README.md`
-
 TODO: Move below instructions into the terraform setup:
 
 ### Hub Crossplane
@@ -237,4 +235,24 @@ TODO:
 
 ## Destroy
 
-Follow the destroy instructions in the relevant readme (`./terraform/README.md` or `./localdev/README.md`)
+```sh
+kubectl --kubeconfig ${ROOT}/kubeconfig-staging.yaml \
+    --namespace traefik delete service traefik
+
+rm ${ROOT}/staging/*.yaml
+
+git add .
+
+git commit -m "Destroy"
+
+git push
+
+kubectl get managed
+
+# Wait until all the managed resources are removed (ignore `object` resources)
+
+eksctl delete cluster --config-file ${ROOT}/eksctl.yaml
+```
+
+
+Follow the destroy instructions in the relevant readme (`./terraform/README.md`)
