@@ -18,7 +18,7 @@ spec:
         enabled: true
       argocd:
         enabled: true
-        host: argocd.52.70.155.193.nip.io
+        host: argocd.54.209.135.19.nip.io
         repoURL: https://github.com/vfarcic/london-2024
         destinationNamespace: apps
         sourcePath: staging

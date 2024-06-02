@@ -10,10 +10,11 @@
     "yq-go@4.43.1",
     "terraform@1.8.3",
     "crossplane-cli@1.15.2",
-    "argocd@2.11.0"
+    "argocd@2.11.0",
+    "kind@0.23.0"
   ],
   "shell": {
     "init_hook": [],
-    "scripts": {}
+    "scripts":   {}
   }
 }
